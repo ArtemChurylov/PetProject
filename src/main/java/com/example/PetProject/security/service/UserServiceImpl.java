@@ -4,6 +4,7 @@ import com.example.PetProject.security.models.CrmUser;
 import com.example.PetProject.security.models.Role;
 import com.example.PetProject.security.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,16 @@ public class UserServiceImpl implements UserService {
         user.setName(crmUser.getName());
         user.setLastName(crmUser.getLastName());
         user.setRole(Role.USER);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(CrmUser crmUser) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setEmail(crmUser.getEmail());
+        user.setPassword(passwordEncoder.encode(crmUser.getPassword()));
+        user.setName(crmUser.getName());
+        user.setLastName(crmUser.getLastName());
         userRepository.save(user);
     }
 

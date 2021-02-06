@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
 
     void save(CrmUser crmUser);
+    void updateUser(CrmUser crmUser);
 
     Optional<User> findByEmail(String email);
 }

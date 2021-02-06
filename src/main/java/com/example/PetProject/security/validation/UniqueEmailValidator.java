@@ -1,10 +1,16 @@
 package com.example.PetProject.security.validation;
 
 import com.example.PetProject.security.models.CrmUser;
+import com.example.PetProject.security.models.User;
 import com.example.PetProject.security.service.UserRepository;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Comparator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, CrmUser> {
 
@@ -23,6 +29,23 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Cr
     public boolean isValid(CrmUser crmUser, ConstraintValidatorContext context) {
 
         boolean isValid = true;
+
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            try {
+                User authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                if (crmUser.getEmail().equals(authenticatedUser.getEmail())) {
+                    return true;
+                }else {
+                    isValid = userRepository.findAll().stream()
+                            .filter(user -> !user.getEmail().equals(authenticatedUser.getEmail()))
+                            .collect(Collectors.toList())
+                            .stream().noneMatch(user -> user.getEmail().equals(authenticatedUser.getEmail()));
+                }
+            } catch (Exception e) {
+
+            }
+        }
 
         if (crmUser.getEmail() != null){
             isValid = userRepository.findAll().stream().noneMatch(user -> user.getEmail().equals(crmUser.getEmail()));

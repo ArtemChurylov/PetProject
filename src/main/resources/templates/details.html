@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<form class="container">
+    <table class="table">
+        <h3 style="color: black">User details</h3>
+        <tbody>
+        <tr class="TableRow__TableRowElement-nly8t1-0 kTgwlZ">
+            <td class="sc-idOhPF kGntgQ">Email</td>
+            <td data-hj-suppress="true" class="sc-dIUggk XavQL" th:text="${email}"></td></tr>
+        <tr class="TableRow__TableRowElement-nly8t1-0 kTgwlZ">
+            <td class="sc-idOhPF kGntgQ">First Name</td>
+            <td data-hj-suppress="true" class="sc-dIUggk XavQL" th:text="${name}"></td>
+        </tr>
+        <tr class="TableRow__TableRowElement-nly8t1-0 kTgwlZ">
+            <td class="sc-idOhPF kGntgQ">Last Name</td>
+            <td data-hj-suppress="true" class="sc-dIUggk XavQL" th:text="${lastName}"></td>
+        </tr><tr class="TableRow__TableRowElement-nly8t1-0 kTgwlZ">
+            <td class="sc-idOhPF kGntgQ">Role</td>
+            <td data-hj-suppress="true" class="sc-dIUggk XavQL" th:text="${role}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/update}" class="btn btn-outline-primary">Edit profile</a>
+</form>
+</body>
+</html>
