@@ -7,13 +7,25 @@
 </head>
 <body>
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <p class="h5 my-0 me-md-auto fw-normal">Company name</p>
+    <p class="h5 my-0 me-md-auto fw-normal">My WebSite</p>
     <nav class="my-2 my-md-0 me-md-3">
+        <a class="btn btn-outline-primary" th:href="@{/course/add}">Add your course</a>
+        <a class="btn btn-outline-primary" href="#">My Courses</a>
         <a class="btn btn-outline-primary" th:href="'/details'" th:text="${name} + ' ' + ${lastName}"></a>
     </nav>
     <form method="post" th:action="@{/logout}">
         <button type="submit" class="btn btn-outline-primary">Logout</button>
     </form>
 </header>
+
+<div th:each="course : ${courses}" >
+    <br>
+    <p th:text="'Course title: ' + ${course.getTitle()}"/>
+    <p th:text="'Course description: ' + ${course.getDescription()}"/>
+    <p th:text="'Course price: ' + ${course.getPrice()}"/>
+    <p><img alt="" th:src="*{'data:image/jpeg;base64,'+{course.getImage()}}" style="width: 100px;height: 100px;"></p>
+    <br>
+</div>
+
 </body>
 </html>

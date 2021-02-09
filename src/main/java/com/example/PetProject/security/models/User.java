@@ -1,5 +1,6 @@
 package com.example.PetProject.security.models;
 
+import com.example.PetProject.application.course.Course;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -34,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private List<Course> course;
 
     public User() {
     }
@@ -80,6 +85,14 @@ public class User implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Course> getCourse() {
+        return course;
+    }
+
+    public void setCourse(List<Course> course) {
+        this.course = course;
     }
 
     @Override

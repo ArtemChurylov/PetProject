@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.validation.Valid;
 
@@ -31,7 +30,7 @@ public class SecurityController {
     @GetMapping("/login")
     public String login() {
 
-        return "loginPage";
+        return "security/loginPage";
     }
 
     @GetMapping("/registration")
@@ -43,7 +42,7 @@ public class SecurityController {
     public String createUser(@Valid CrmUser crmUser, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "registrationPage";
+            return "security/registrationPage";
         }
 
         userService.save(crmUser);
@@ -57,14 +56,14 @@ public class SecurityController {
         model.addAttribute("email", user.getEmail());
         model.addAttribute("name", user.getName());
         model.addAttribute("lastName", user.getLastName());
-        return "updateUserPage";
+        return "security/updateUserPage";
     }
 
     @PostMapping("/update")
     public String updateUser(@Valid CrmUser crmUser, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "updateUserPage";
+            return "security/updateUserPage";
         }
 
         userService.updateUser(crmUser);
