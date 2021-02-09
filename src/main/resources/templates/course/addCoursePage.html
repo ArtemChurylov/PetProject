@@ -15,23 +15,24 @@
         <h2 class="form-signin-heading">Enter data</h2>
         <p>
             <label for="title" class="sr-only">Title</label>
-            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
             <input type="text" id="title" name="title" class="form-control" placeholder="Title">
         </p>
         <p>
             <label for="description" class="sr-only">Description</label>
-            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
             <textarea type="text" id="description" name="description" class="form-control" placeholder="Description"></textarea>
         </p>
         <p>
             <label for="price" class="sr-only">Price</label>
-            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
             <input type="text" id="price" name="price" class="form-control" placeholder="Price">
         </p>
         <p>
+            Image(file should have type of jpg or png)
             <label for="price" class="sr-only">Image</label>
-            <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
-            <input type="file" id="file" name="file" class="form-control" placeholder="Price">
+            <span style="color: red" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+            <input type="file" id="file" name="file" class="form-control" placeholder="Image" required>
         </p>
         <input name="_csrf" type="hidden" value="cc75d865-a84e-4afc-a01d-f55be3951085" />
         <button class="btn btn-lg btn-primary btn-block" type="submit">Add course</button>

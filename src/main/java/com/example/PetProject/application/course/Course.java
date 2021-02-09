@@ -5,7 +5,6 @@ import com.example.PetProject.security.models.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -28,9 +27,9 @@ public class Course {
     private String description;
 
     @Price
-    @NotNull(message = "Can`t be empty")
+    @NotEmpty(message = "Can`t be empty")
     @Column(name = "price")
-    private Double price;
+    private String price;
 
     @Lob
     @Column(name = "image")
@@ -43,6 +42,14 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     )
     private List<User> users;
+
+    @ManyToOne
+    @JoinTable(
+            name = "course_owner",
+            joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    )
+    private User owner;
 
     public Course() {
     }
@@ -71,11 +78,11 @@ public class Course {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -94,4 +101,16 @@ public class Course {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        List<Course> courses = owner.getCreatedCourses();
+        courses.add(this);
+        owner.setCreatedCourses(courses);
+        this.owner = owner;
+    }
+
 }

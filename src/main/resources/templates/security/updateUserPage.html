@@ -16,31 +16,31 @@
         <p>
             Email
             <label for="email" class="sr-only">Email</label>
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
             <input type="text" th:value="${email}" id="email" name="email" class="form-control">
         </p>
         <p>
             Password
             <label for="password" class="sr-only">Password</label>
-            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" th:field="*{password}">
         </p>
         <p>
             Confirm password
             <label for="confirmPassword" class="sr-only">confirmPassword</label>
-            <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" th:field="*{confirmPassword}">
         </p>
         <p>
             First name
             <label for="name" class="sr-only">Name</label>
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             <input type="text" id="name" name="name" class="form-control" placeholder="First name" th:value="${name}">
         </p>
         <p>
             Last name
             <label for="lastName" class="sr-only">Name</label>
-            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+            <span style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
             <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" th:value="${lastName}">
         </p>
         <input name="_csrf" type="hidden" value="cc75d865-a84e-4afc-a01d-f55be3951085" />

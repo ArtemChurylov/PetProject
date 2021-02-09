@@ -23,7 +23,8 @@
     <p th:text="'Course title: ' + ${course.getTitle()}"/>
     <p th:text="'Course description: ' + ${course.getDescription()}"/>
     <p th:text="'Course price: ' + ${course.getPrice()}"/>
-    <p><img alt="" th:src="*{'data:image/jpeg;base64,'+{course.getImage()}}" style="width: 100px;height: 100px;"></p>
+    <p><img alt="" th:src="*{'data:image/jpeg;base64,'+{course.getImage()}}" style="width: 250px;height: 250px;"></p>
+    <p th:text="'Course author: ' + ${course.getOwner().getName()} + ' ' + ${course.getOwner().getLastName()}"/>
     <br>
 </div>
 

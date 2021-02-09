@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Course> course;
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    private List<Course> createdCourses;
+
     public User() {
     }
 
@@ -93,6 +96,14 @@ public class User implements UserDetails {
 
     public void setCourse(List<Course> course) {
         this.course = course;
+    }
+
+    public List<Course> getCreatedCourses() {
+        return createdCourses;
+    }
+
+    public void setCreatedCourses(List<Course> createdCourses) {
+        this.createdCourses = createdCourses;
     }
 
     @Override
