@@ -1,7 +1,10 @@
 package com.example.PetProject.application.course;
 
+import com.example.PetProject.security.models.User;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +22,18 @@ public class CourseController {
     }
 
     private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, CourseRepository courseRepository) {
         this.courseService = courseService;
+        this.courseRepository = courseRepository;
     }
 
     @GetMapping("/add")
-    public String addCoursePage(Course course) {
+    public String addCoursePage(Course course, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("name", user.getName());
+        model.addAttribute("lastName", user.getLastName());
         return "course/addCoursePage";
     }
 
@@ -39,5 +47,16 @@ public class CourseController {
         courseService.saveCourse(file, course);
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/details/{id}")
+    public String courseDetails(@PathVariable Long id, Model model) {
+        Course course = courseRepository.findById(id).orElseThrow();
+        model.addAttribute("course", course);
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("name", user.getName());
+        model.addAttribute("lastName", user.getLastName());
+        return "course/details";
     }
 }

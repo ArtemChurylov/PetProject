@@ -2,31 +2,42 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
-<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <p class="h5 my-0 me-md-auto fw-normal">My WebSite</p>
-    <nav class="my-2 my-md-0 me-md-3">
-        <a class="btn btn-outline-primary" th:href="@{/course/add}">Add your course</a>
-        <a class="btn btn-outline-primary" href="#">My Courses</a>
-        <a class="btn btn-outline-primary" th:href="'/details'" th:text="${name} + ' ' + ${lastName}"></a>
-    </nav>
-    <form method="post" th:action="@{/logout}">
-        <button type="submit" class="btn btn-outline-primary">Logout</button>
-    </form>
-</header>
-
-<div th:each="course : ${courses}" >
-    <br>
-    <p th:text="'Course title: ' + ${course.getTitle()}"/>
-    <p th:text="'Course description: ' + ${course.getDescription()}"/>
-    <p th:text="'Course price: ' + ${course.getPrice()}"/>
-    <p><img alt="" th:src="*{'data:image/jpeg;base64,'+{course.getImage()}}" style="width: 250px;height: 250px;"></p>
-    <p th:text="'Course author: ' + ${course.getOwner().getName()} + ' ' + ${course.getOwner().getLastName()}"/>
-    <br>
+<div th:fragment="header">
+    <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <a th:href="@{/home}" class="h5 my-0 me-md-auto fw-normal">My WebSite</a>
+        <nav class="my-2 my-md-0 me-md-3">
+            <a class="btn btn-outline-primary" th:href="@{/course/add}">Add your course</a>
+            <a class="btn btn-outline-primary" href="#">My Courses</a>
+            <a class="btn btn-outline-primary" th:href="'/details'" th:text="${name} + ' ' + ${lastName}"></a>
+        </nav>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit" class="btn btn-outline-primary">Logout</button>
+        </form>
+    </header>
 </div>
+
+<form class="container" style="margin-left: 450px">
+    <h3>Our courses</h3>
+    <div class="card mb-3" style="max-width: 540px;" th:each="course : ${courses}">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img alt="" th:src="'data:image/jpeg;base64,' + ${course.getImage()}" style="width: 290px;height: 195px;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body" style="margin-left: 120px">
+                    <h5 class="card-title" th:text="${course.getTitle()}">Card title</h5>
+                    <p class="card-text" th:text="'Price: ' + ${course.getPrice()} + '$'"></p>
+                    <p class="card-text" th:text="'Author: ' + ${course.getOwner().getName()} + ' ' + ${course.getOwner().getLastName()}"></p>
+                    <a th:href="@{'/course/details/' + ${course.getId()}}"><input class="btn btn-outline-secondary" value="Details" style="margin-top: 10px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 </body>
 </html>

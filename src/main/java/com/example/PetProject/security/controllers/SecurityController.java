@@ -43,7 +43,7 @@ public class SecurityController {
 
     @GetMapping("/registration")
     public String registration(CrmUser crmUser) {
-        return "registrationPage";
+        return "security/registrationPage";
     }
 
     @PostMapping("/registration")
