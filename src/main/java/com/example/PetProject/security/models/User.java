@@ -6,10 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -37,8 +34,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "balance")
+    private Double balance;
+
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
-    private List<Course> course;
+    private List<Course> courses;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Course> createdCourses;
@@ -90,16 +90,28 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public List<Course> getCourse() {
-        return course;
+    public List<Course> getCourses() {
+        return courses;
     }
 
-    public void setCourse(List<Course> course) {
-        this.course = course;
+    public void setCourses(List<Course> course) {
+        this.courses = course;
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
     }
 
     public List<Course> getCreatedCourses() {
         return createdCourses;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public void setCreatedCourses(List<Course> createdCourses) {
@@ -139,5 +151,26 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getLastName(), user.getLastName()) &&
+                getRole() == user.getRole() &&
+                Objects.equals(getBalance(), user.getBalance()) &&
+                Objects.equals(getCourses(), user.getCourses()) &&
+                Objects.equals(getCreatedCourses(), user.getCreatedCourses());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail(), getPassword(), getName(), getLastName(), getRole(), getBalance(), getCourses(), getCreatedCourses());
     }
 }

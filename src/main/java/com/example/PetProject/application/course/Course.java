@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -41,7 +43,7 @@ public class Course {
             joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     )
-    private List<User> users;
+    private Set<User> users;
 
     @ManyToOne
     @JoinTable(
@@ -86,12 +88,13 @@ public class Course {
         this.price = price;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+
+    public void addUser(User user) {
+        this.users.add(user);
     }
 
     public String getImage() {
@@ -111,6 +114,25 @@ public class Course {
         courses.add(this);
         owner.setCreatedCourses(courses);
         this.owner = owner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return Objects.equals(getId(), course.getId()) &&
+                Objects.equals(getTitle(), course.getTitle()) &&
+                Objects.equals(getDescription(), course.getDescription()) &&
+                Objects.equals(getPrice(), course.getPrice()) &&
+                Objects.equals(getImage(), course.getImage()) &&
+                Objects.equals(getUsers(), course.getUsers()) &&
+                Objects.equals(getOwner(), course.getOwner());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getImage(), getUsers(), getOwner());
     }
 
 }

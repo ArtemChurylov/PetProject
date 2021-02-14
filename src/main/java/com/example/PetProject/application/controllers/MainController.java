@@ -23,6 +23,7 @@ public class MainController {
         model.addAttribute("name", user.getName());
         model.addAttribute("lastName", user.getLastName());
         model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("balance", user.getBalance());
         return "homePage";
     }
 
@@ -33,6 +34,19 @@ public class MainController {
         model.addAttribute("name", user.getName());
         model.addAttribute("lastName", user.getLastName());
         model.addAttribute("role", user.getRole());
+        model.addAttribute("balance", user.getBalance());
         return "details";
     }
+
+    @GetMapping("/moneyException")
+    public String moneyException() {
+        return "exceptions/moneyException";
+    }
+
+    @GetMapping("/buyException")
+    public String buyException() {
+        return "exceptions/buyException";
+    }
+
+
 }

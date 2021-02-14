@@ -64,6 +64,7 @@ public class SecurityController {
         model.addAttribute("email", user.getEmail());
         model.addAttribute("name", user.getName());
         model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("balance", user.getBalance());
         return "security/updateUserPage";
     }
 

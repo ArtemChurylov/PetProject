@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
         user.setName(crmUser.getName());
         user.setLastName(crmUser.getLastName());
         user.setRole(Role.USER);
+        user.setBalance(100.0);
         userRepository.save(user);
     }
 
