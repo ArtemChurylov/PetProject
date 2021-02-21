@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<header th:insert="homePage :: header"></header>
+
+<form class="container sticky-top" style="margin-left: 450px;">
+    <h3>Your created courses</h3>
+    <div class="card mb-3" style="max-width: 540px;" th:each="my_course : ${my_courses}">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img alt="" th:src="'data:image/jpeg;base64,' + ${my_course.getImage()}" style="width: 290px;height: 195px;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body" style="margin-left: 120px">
+                    <h5 class="card-title" th:text="${my_course.getTitle()}">Card title</h5>
+                    <p class="card-text" th:text="'Price: ' + ${my_course.getPrice()} + '$'"></p>
+                    <p class="card-text" th:text="'Author: ' + ${my_course.getOwner().getName()} + ' ' + ${my_course.getOwner().getLastName()}"></p>
+                    <a th:href="@{'/course/details/' + ${my_course.getId()}}" class="btn btn-outline-secondary" style="width: 100px">Details</a>
+                    <a th:href="@{'/course/edit/' + ${my_course.getId()}}" class="btn btn-outline-secondary" style="width: 100px">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

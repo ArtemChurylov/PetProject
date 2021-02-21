@@ -67,6 +67,16 @@ public class CourseController {
         return "course/details";
     }
 
+    @GetMapping("/created")
+    public String showCreatedCourses(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("my_courses", user.getCreatedCourses());
+        model.addAttribute("name", user.getName());
+        model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("balance", user.getBalance());
+        return "course/createdCourses";
+    }
+
     @GetMapping("/myCourses")
     public String myCourses(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,30 +94,32 @@ public class CourseController {
         User user = userRepository.findById(user_id).orElseThrow();
         Course course = courseRepository.findById(course_id).orElseThrow();
 
+        if (user.getCreatedCourses().stream().noneMatch(course1 -> course1.equals(course))) {
+            if (user.getCourses().stream().noneMatch(course1 -> course1.equals(course))) {
+                if (user.getBalance() >= Double.parseDouble(course.getPrice())) {
 
-        if (user.getCourses().stream().noneMatch(course1 -> course1.equals(course))) {
-            if (user.getBalance() >= Double.parseDouble(course.getPrice())) {
-                user.setBalance(user.getBalance() - Double.parseDouble(course.getPrice()));
+                    user.setBalance(user.getBalance() - Double.parseDouble(course.getPrice()));
+                    user.addCourse(course);
+                    course.addUser(user);
 
-                user.addCourse(course);
-                course.addUser(user);
-//                List<User> userList = course.getUsers();
-//                userList.add(user);
-//                course.setUsers(userList);
-                User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                loggedInUser.setBalance(user.getBalance());
-                loggedInUser.setCourses(user.getCourses());
+                    User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    loggedInUser.setBalance(user.getBalance());
+                    loggedInUser.setCourses(user.getCourses());
 
-                courseRepository.save(course);
-                userRepository.save(user);
-            } else {
+                    courseRepository.save(course);
+                    userRepository.save(user);
+                } else {
 //                throw new IllegalStateException("Not enough money");
-                return "redirect:/moneyException";
-            }
-        } else {
+                    return "redirect:/moneyException";
+                }
+            } else {
 //            throw new IllegalStateException("You have already bought this course");
-            return "redirect:/buyException";
+                return "redirect:/buyException";
+            }
+        }else {
+            return "redirect:/ownCourseException";
         }
+
         return "redirect:/home";
     }
 

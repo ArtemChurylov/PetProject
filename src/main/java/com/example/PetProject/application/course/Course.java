@@ -20,11 +20,11 @@ public class Course {
     private Long id;
 
     @NotEmpty(message = "Can`t be empty")
-    @Size(min = 5, max = 33, message = "Size must be between 5 and 33")
+    @Size(min = 5, max = 50, message = "Size must be between 5 and 50")
     @Column(name = "title")
     private String title;
 
-    @Size(max = 100, message = "Max size is 100 characters")
+    @Size(max = 200, message = "Max size is 200 characters")
     @Column(name = "description")
     private String description;
 

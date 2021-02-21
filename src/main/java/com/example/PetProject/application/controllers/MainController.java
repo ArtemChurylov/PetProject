@@ -48,5 +48,10 @@ public class MainController {
         return "exceptions/buyException";
     }
 
+    @GetMapping("/ownCourseException")
+    public String ownCourseException() {
+        return "exceptions/ownCourseException";
+    }
+
 
 }
