@@ -12,8 +12,8 @@
         <nav class="my-2 my-md-0 me-md-3">
             <a class="btn btn-outline-primary" th:href="@{/course/add}">Add your course</a>
             <a class="btn btn-outline-primary" th:href="@{/course/myCourses}">My Courses</a>
-            <a class="btn btn-outline-primary" th:href="'/details'" th:text="${name} + ' ' + ${lastName}"></a>
-            <a class="btn btn-outline-primary" th:text="'Balance: ' + ${balance}"></a>
+            <a class="btn btn-outline-primary" th:href="'/details'" th:text="${user.getName()} + ' ' + ${user.getLastName()}"></a>
+            <a class="btn btn-outline-primary" th:text="'Balance: ' + ${user.getBalance()}"></a>
         </nav>
         <form method="post" th:action="@{/logout}">
             <button type="submit" class="btn btn-outline-primary">Logout</button>

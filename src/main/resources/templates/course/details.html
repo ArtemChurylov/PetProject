@@ -22,7 +22,7 @@
     <img alt="" th:src="'data:image/jpeg;base64,' + ${course.getImage()}" style="width: 304px;height: 210px; margin-left: -1px; margin-top: -1px">
     <div class="card-body">
         <h5 class="card-title" th:text="'Price: ' + ${course.getPrice()} + '$'"></h5>
-        <form th:action="@{'/course/buy/' + ${course.getId()} + '/' + ${user_id}}" method="post">
+        <form th:action="@{'/course/buy/' + ${course.getId()} + '/' + ${user.getId()}}" method="post">
         <button type="submit" class="btn btn-lg btn-primary btn-block">Buy now</button>
         </form>
     </div>

@@ -10,7 +10,7 @@
 
     <form class="container" style="margin-left: 450px;">
         <h3>Courses you purchased</h3>
-        <div class="card mb-3" style="max-width: 540px;" th:each="course : ${courses}">
+        <div class="card mb-3" style="max-width: 540px;" th:each="course : ${user.getCourses()}">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img alt="" th:src="'data:image/jpeg;base64,' + ${course.getImage()}" style="width: 290px;height: 195px;">

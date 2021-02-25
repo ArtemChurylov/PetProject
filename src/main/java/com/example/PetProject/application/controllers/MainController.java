@@ -20,21 +20,15 @@ public class MainController {
     public String homePage(Model model) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("user", user);
         model.addAttribute("courses", courseRepository.findAll());
-        model.addAttribute("balance", user.getBalance());
         return "homePage";
     }
 
     @GetMapping("/details")
     public String details(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("role", user.getRole());
-        model.addAttribute("balance", user.getBalance());
+        model.addAttribute("user", user);
         return "details";
     }
 

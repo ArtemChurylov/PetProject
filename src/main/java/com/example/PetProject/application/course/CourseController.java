@@ -36,9 +36,7 @@ public class CourseController {
     @GetMapping("/add")
     public String addCoursePage(Course course, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("balance", user.getBalance());
+        model.addAttribute("user", user);
         return "course/addCoursePage";
     }
 
@@ -54,36 +52,53 @@ public class CourseController {
         return "redirect:/home";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editCoursePage(@PathVariable Long id, Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
+
+        Course course = courseRepository.findById(id).orElseThrow();
+        model.addAttribute("course", course);
+        return "course/editPage";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editCourse(@Valid Course course, BindingResult result,
+                             @RequestParam("file") MultipartFile file,
+                             @PathVariable Long id) {
+        if (result.hasErrors()){
+            return "course/addCoursePage";
+        }
+
+        courseService.editCourse(file, course, id);
+
+        return "redirect:/home";
+    }
+
     @GetMapping("/details/{id}")
     public String courseDetails(@PathVariable Long id, Model model) {
         Course course = courseRepository.findById(id).orElseThrow();
         model.addAttribute("course", course);
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("balance", user.getBalance());
-        model.addAttribute("user_id", user.getId());
+        model.addAttribute("user", user);
+
         return "course/details";
     }
 
     @GetMapping("/created")
     public String showCreatedCourses(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("my_courses", user.getCreatedCourses());
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("balance", user.getBalance());
+        model.addAttribute("user", user);
+
         return "course/createdCourses";
     }
 
     @GetMapping("/myCourses")
     public String myCourses(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("courses", user.getCourses());
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("balance", user.getBalance());
+        model.addAttribute("user", user);
+
         return "course/myCourses";
     }
 

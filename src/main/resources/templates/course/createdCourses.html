@@ -10,7 +10,7 @@
 
 <form class="container sticky-top" style="margin-left: 450px;">
     <h3>Your created courses</h3>
-    <div class="card mb-3" style="max-width: 540px;" th:each="my_course : ${my_courses}">
+    <div class="card mb-3" style="max-width: 540px;" th:each="my_course : ${user.getCreatedCourses()}">
         <div class="row g-0">
             <div class="col-md-4">
                 <img alt="" th:src="'data:image/jpeg;base64,' + ${my_course.getImage()}" style="width: 290px;height: 195px;">

@@ -36,4 +36,37 @@ public class CourseService {
     }
 
 
+    public void editCourse(MultipartFile file, Course course, Long id) {
+
+        Course tempCourse = courseRepository.findById(id).orElseThrow();
+
+        tempCourse.setTitle(course.getTitle());
+        tempCourse.setDescription(course.getDescription());
+        tempCourse.setPrice(course.getPrice());
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Course course1 = user.getCreatedCourses().stream().filter(course2 -> course2.getId().equals(tempCourse.getId())).findFirst().orElseThrow();
+        course1.setTitle(tempCourse.getTitle());
+        course1.setDescription(tempCourse.getDescription());
+        course1.setPrice(tempCourse.getPrice());
+
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+
+            if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+
+                try {
+                    tempCourse.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+                    course1.setImage(tempCourse.getImage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                throw new IllegalStateException("Invalid type of file");
+            }
+        }
+
+        courseRepository.save(tempCourse);
+    }
 }

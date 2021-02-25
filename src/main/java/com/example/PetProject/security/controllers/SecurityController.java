@@ -61,10 +61,7 @@ public class SecurityController {
     @GetMapping("/update")
     public String updateUserPage(CrmUser crmUser, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("name", user.getName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("balance", user.getBalance());
+        model.addAttribute("user", user);
         return "security/updateUserPage";
     }
 
