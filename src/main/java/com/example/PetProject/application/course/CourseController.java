@@ -18,6 +18,8 @@ import javax.validation.Valid;
 @RequestMapping("/course")
 public class CourseController {
 
+
+    // If forms will contains spaces at first or at the end, its will be removed.
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -33,6 +35,7 @@ public class CourseController {
         this.userRepository = userRepository;
     }
 
+    // Returns page for adding course
     @GetMapping("/add")
     public String addCoursePage(Course course, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,6 +43,7 @@ public class CourseController {
         return "course/addCoursePage";
     }
 
+    // Processing adding the course
     @PostMapping("/add")
     public String addCourse(@Valid Course course, BindingResult result, @RequestParam("file") MultipartFile file) {
 
@@ -52,6 +56,7 @@ public class CourseController {
         return "redirect:/home";
     }
 
+    // Takes id and shows separated course for editing
     @GetMapping("/edit/{id}")
     public String editCoursePage(@PathVariable Long id, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,6 +67,7 @@ public class CourseController {
         return "course/editPage";
     }
 
+    // Processing editing the course
     @PostMapping("/edit/{id}")
     public String editCourse(@Valid Course course, BindingResult result,
                              @RequestParam("file") MultipartFile file,
@@ -75,6 +81,7 @@ public class CourseController {
         return "redirect:/home";
     }
 
+    // Returns course details page
     @GetMapping("/details/{id}")
     public String courseDetails(@PathVariable Long id, Model model) {
         Course course = courseRepository.findById(id).orElseThrow();
@@ -86,6 +93,24 @@ public class CourseController {
         return "course/details";
     }
 
+    // Course delete logic
+    @Transactional
+    @PostMapping("/delete/{id}")
+    public String deleteCourse(@PathVariable Long id) {
+        Course course = courseRepository.findById(id).orElseThrow();
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // Refreshing created courses for logged in user
+        for (int i = 0; i < loggedInUser.getCreatedCourses().size(); i++) {
+            if (loggedInUser.getCreatedCourses().get(i).getId().equals(course.getId())) {
+                loggedInUser.getCreatedCourses().remove(i);
+            }
+        }
+        courseRepository.deleteById(id);
+        return "redirect:/course/created";
+    }
+
+    // Returns page with created courses by logged in user
     @GetMapping("/created")
     public String showCreatedCourses(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -94,6 +119,7 @@ public class CourseController {
         return "course/createdCourses";
     }
 
+    // Returns page with courses which logged in user has bought
     @GetMapping("/myCourses")
     public String myCourses(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -109,10 +135,14 @@ public class CourseController {
         User user = userRepository.findById(user_id).orElseThrow();
         Course course = courseRepository.findById(course_id).orElseThrow();
 
+        // If the user tries to buy course which he was create
         if (user.getCreatedCourses().stream().noneMatch(course1 -> course1.equals(course))) {
+            // If the user tries to buy course which he was already bought
             if (user.getCourses().stream().noneMatch(course1 -> course1.equals(course))) {
+                // If the user has less money than course cost
                 if (user.getBalance() >= Double.parseDouble(course.getPrice())) {
 
+                    // Buy course logic
                     user.setBalance(user.getBalance() - Double.parseDouble(course.getPrice()));
                     user.addCourse(course);
                     course.addUser(user);
@@ -124,14 +154,15 @@ public class CourseController {
                     courseRepository.save(course);
                     userRepository.save(user);
                 } else {
-//                throw new IllegalStateException("Not enough money");
+                    // Don`t know how to throw an exception on button, so this is a decision.
                     return "redirect:/moneyException";
                 }
             } else {
-//            throw new IllegalStateException("You have already bought this course");
+                //The same reason
                 return "redirect:/buyException";
             }
         }else {
+            //That`s too
             return "redirect:/ownCourseException";
         }
 

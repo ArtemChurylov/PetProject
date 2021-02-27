@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.*;
 
+
+// Just a model of User which implements UserDetails interface
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -37,9 +40,11 @@ public class User implements UserDetails {
     @Column(name = "balance")
     private Double balance;
 
+    // List of courses which user has bought
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Course> courses;
 
+    //List of courses which user has create
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Course> createdCourses;
 

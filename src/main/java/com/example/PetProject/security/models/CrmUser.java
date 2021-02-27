@@ -7,6 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+
+// This is a model of User for validation forms
+
 @ConfirmPassword
 @UniqueEmail
 public class CrmUser {

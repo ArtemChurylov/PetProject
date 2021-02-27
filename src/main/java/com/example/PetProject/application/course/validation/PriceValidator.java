@@ -14,6 +14,7 @@ public class PriceValidator implements ConstraintValidator<Price, String> {
 
         boolean isValid = true;
 
+        // Strings and negative numbers can`t be valid
         if (String.valueOf(price).contains("-")) isValid = false;
 
         try {

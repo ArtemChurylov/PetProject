@@ -19,14 +19,17 @@ public class CourseService {
 
     public void saveCourse(MultipartFile file, Course course) {
 
+        // Can`t be null because file is required
         String fileName = file.getOriginalFilename();
 
+        // If it`s not a photo its throw an exception
         if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
             try {
                 course.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // Get authenticated user to set owner of course
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             course.setOwner(user);
             courseRepository.save(course);
@@ -38,12 +41,15 @@ public class CourseService {
 
     public void editCourse(MultipartFile file, Course course, Long id) {
 
+        // Find course by id
         Course tempCourse = courseRepository.findById(id).orElseThrow();
 
+        // Update details for this course
         tempCourse.setTitle(course.getTitle());
         tempCourse.setDescription(course.getDescription());
         tempCourse.setPrice(course.getPrice());
 
+        // Refreshing course for logged in user session
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Course course1 = user.getCreatedCourses().stream().filter(course2 -> course2.getId().equals(tempCourse.getId())).findFirst().orElseThrow();
         course1.setTitle(tempCourse.getTitle());
@@ -67,6 +73,7 @@ public class CourseService {
             }
         }
 
+        // Save the updated course to DB.
         courseRepository.save(tempCourse);
     }
 }

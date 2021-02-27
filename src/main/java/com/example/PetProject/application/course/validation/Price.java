@@ -4,6 +4,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+// Validation for field price in Course
+
 @Documented
 @Constraint(validatedBy = PriceValidator.class)
 @Target(ElementType.FIELD)

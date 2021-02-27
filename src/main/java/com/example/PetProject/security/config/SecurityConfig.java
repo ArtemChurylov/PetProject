@@ -22,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userService = userService;
     }
 
+
+    // Any request, beside registration, should be authenticated.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -39,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
+
+    // Provider, which Spring Security need for its work
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

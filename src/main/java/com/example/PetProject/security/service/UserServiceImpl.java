@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+// User service implementation which contains logic of UserService methods
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
         user.setName(crmUser.getName());
         user.setLastName(crmUser.getLastName());
         user.setRole(Role.USER);
-        user.setBalance(100.0);
+        user.setBalance(250.0);
         userRepository.save(user);
     }
 
@@ -50,6 +52,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByEmail(String email) {
         return userRepository.findAll().stream().filter(user -> user.getEmail().equals(email)).findFirst();
     }
+
+    // This is overrided method of UserDetailsService which is necessary for Spring Security,
+    // to find User by unique value. In my case it`s email.
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

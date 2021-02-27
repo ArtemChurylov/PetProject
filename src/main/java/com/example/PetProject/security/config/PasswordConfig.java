@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordConfig {
 
+    // This is a bean for encryption passwords
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);

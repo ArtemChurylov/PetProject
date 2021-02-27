@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+// Course model
+
 @Entity
 public class Course {
 
@@ -37,6 +39,7 @@ public class Course {
     @Column(name = "image")
     private String image;
 
+    // Set of users which have bought this course
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "course_user",
@@ -45,6 +48,7 @@ public class Course {
     )
     private Set<User> users;
 
+    // Owner of this course
     @ManyToOne
     @JoinTable(
             name = "course_owner",
@@ -108,6 +112,7 @@ public class Course {
     public User getOwner() {
         return owner;
     }
+
 
     public void setOwner(User owner) {
         List<Course> courses = owner.getCreatedCourses();

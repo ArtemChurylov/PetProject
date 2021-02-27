@@ -30,6 +30,8 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Cr
 
         boolean isValid = true;
 
+
+        // This is logic of validation email for updating User.
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             try {
                 User authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -47,10 +49,12 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Cr
             }
         }
 
+        // Compare email from form with emails from DB.
         if (crmUser.getEmail() != null){
             isValid = userRepository.findAll().stream().noneMatch(user -> user.getEmail().equals(crmUser.getEmail()));
         }
 
+        // If not valid, throws an exception on field.
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())

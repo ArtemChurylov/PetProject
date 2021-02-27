@@ -33,7 +33,10 @@
             <input type="file" id="file" name="file" class="form-control" placeholder="Image">
         </p>
         <input name="_csrf" type="hidden" value="cc75d865-a84e-4afc-a01d-f55be3951085" />
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
+        <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+    <form style="margin-left: 560px; margin-top: -53px" th:action="@{'/course/delete/' + ${course.getId()}}" method="post" onclick="return confirm('Are you sure you want to delete this course?');">
+        <button class="btn btn-danger" type="submit">Delete</button>
     </form>
 </div>
 </body>

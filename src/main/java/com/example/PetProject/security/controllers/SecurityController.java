@@ -2,11 +2,9 @@ package com.example.PetProject.security.controllers;
 
 import com.example.PetProject.security.models.CrmUser;
 import com.example.PetProject.security.models.User;
-import com.example.PetProject.security.service.UserRepository;
 import com.example.PetProject.security.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,28 +24,27 @@ public class SecurityController {
     }
 
     private final UserService userService;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public SecurityController(UserService userService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public SecurityController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
+    // Returns login page
     @GetMapping("/login")
     public String login() {
 
         return "security/loginPage";
     }
 
+    // Returns registration page
     @GetMapping("/registration")
     public String registration(CrmUser crmUser) {
         return "security/registrationPage";
     }
 
+    //Provides registration of user
     @PostMapping("/registration")
-    public String createUser(@Valid CrmUser crmUser, BindingResult result, Model model) {
+    public String createUser(@Valid CrmUser crmUser, BindingResult result) {
 
         if (result.hasErrors()) {
             return "security/registrationPage";
@@ -58,13 +55,17 @@ public class SecurityController {
         return "redirect:/home";
     }
 
+    // Returns update user page
     @GetMapping("/update")
     public String updateUserPage(CrmUser crmUser, Model model) {
+
+        // Takes authenticated user from SecurityContext to show user details in form
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", user);
         return "security/updateUserPage";
     }
 
+    //Provides update of user
     @PostMapping("/update")
     public String updateUser(@Valid CrmUser crmUser, BindingResult result) {
 

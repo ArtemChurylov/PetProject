@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
+// User service interface extends UserDetailsService which is necessary for Spring Security
+
 public interface UserService extends UserDetailsService {
 
     void save(CrmUser crmUser);

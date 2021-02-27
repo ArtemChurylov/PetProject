@@ -16,15 +16,20 @@ public class MainController {
         this.courseRepository = courseRepository;
     }
 
+
+    // Returns home page
     @GetMapping("/home")
     public String homePage(Model model) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // To show user details in header
         model.addAttribute("user", user);
+        // To show all courses on home page
         model.addAttribute("courses", courseRepository.findAll());
         return "homePage";
     }
 
+    // Returns page with user details
     @GetMapping("/details")
     public String details(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

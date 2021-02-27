@@ -4,6 +4,8 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+// Custom validation for unique email. User can`t create profile, if such email is already taken.
+
 @Documented
 @Constraint(validatedBy = UniqueEmailValidator.class)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})

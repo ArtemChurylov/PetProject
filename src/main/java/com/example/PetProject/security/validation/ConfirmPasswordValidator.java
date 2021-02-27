@@ -16,11 +16,13 @@ public class ConfirmPasswordValidator implements ConstraintValidator<ConfirmPass
 
         boolean isValid = true;
 
+        // Just compare if password and confirm password are match
         if (crmUser.getPassword() != null && crmUser.getPassword().length() >= 6
         && crmUser.getConfirmPassword() != null && crmUser.getConfirmPassword().length() >= 6) {
             isValid = crmUser.getPassword().equals(crmUser.getConfirmPassword());
         }
 
+        // If not, it`s throws an exception on filed
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
