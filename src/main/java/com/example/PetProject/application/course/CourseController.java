@@ -45,9 +45,14 @@ public class CourseController {
 
     // Processing adding the course
     @PostMapping("/add")
-    public String addCourse(@Valid Course course, BindingResult result, @RequestParam("file") MultipartFile file) {
+    public String addCourse(@Valid Course course,
+                            BindingResult result,
+                            @RequestParam("file") MultipartFile file,
+                            Model model) {
 
         if (result.hasErrors()){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
             return "course/addCoursePage";
         }
 
@@ -71,8 +76,10 @@ public class CourseController {
     @PostMapping("/edit/{id}")
     public String editCourse(@Valid Course course, BindingResult result,
                              @RequestParam("file") MultipartFile file,
-                             @PathVariable Long id) {
+                             @PathVariable Long id, Model model) {
         if (result.hasErrors()){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
             return "course/addCoursePage";
         }
 

@@ -18,7 +18,7 @@
         <p>
             <label for="email" class="sr-only">Email</label>
             <span style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-            <input type="text" th:value="${user.getEmail()}" id="email" name="email" class="form-control">
+            <input type="text" id="email" name="email" class="form-control" th:value="${user.getEmail()}">
         </p>
         <p>
             <label for="password" class="sr-only">Password</label>

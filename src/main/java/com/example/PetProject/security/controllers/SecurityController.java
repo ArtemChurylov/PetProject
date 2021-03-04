@@ -67,9 +67,11 @@ public class SecurityController {
 
     //Provides update of user
     @PostMapping("/update")
-    public String updateUser(@Valid CrmUser crmUser, BindingResult result) {
+    public String updateUser(@Valid CrmUser crmUser, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("user", user);
             return "security/updateUserPage";
         }
 
